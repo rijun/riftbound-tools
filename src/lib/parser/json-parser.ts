@@ -43,7 +43,7 @@ export function parseJson(text: string, filename: string, resolver: Resolver): D
   const sideBoard = raw.deck?.['Side Board'] ?? [];
 
   for (const entry of mainBoard) {
-    const card = resolver.byId(entry.id);
+    const card = resolver.byId(entry.id) ?? resolver.byShortCode(entry.id);
     deck.zones.main.push({
       count: Number(entry.count),
       cardId: entry.id,
@@ -53,7 +53,7 @@ export function parseJson(text: string, filename: string, resolver: Resolver): D
     if (!card) deck.warnings.push(`Unresolved id: ${entry.id}`);
   }
   for (const entry of sideBoard) {
-    const card = resolver.byId(entry.id);
+    const card = resolver.byId(entry.id) ?? resolver.byShortCode(entry.id);
     deck.zones.sideboard.push({
       count: Number(entry.count),
       cardId: entry.id,

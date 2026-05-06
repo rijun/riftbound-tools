@@ -10,8 +10,18 @@ function fixture(name: string): string {
 }
 
 const cards: Card[] = [
-  { id: 'OGN-095', name: 'Stupefy' },
-  { id: 'UNL-198', name: 'Ravenbloom Student' }
+  {
+    id: 'mongo-1',
+    name: 'Stupefy',
+    collector_number: 95,
+    set: { set_id: 'OGN', label: 'Origins' }
+  },
+  {
+    id: 'mongo-2',
+    name: 'Ravenbloom Student',
+    collector_number: 198,
+    set: { set_id: 'UNL', label: 'Unleashed' }
+  }
 ];
 
 describe('parseJson', () => {

@@ -22,7 +22,7 @@
     {row.cardName}
   </td>
   {#each row.countsPerDeck as count, i}
-    <td class="count" style="background: {bg(count, accents[i])}">
+    <td class="count" class:has-count={count > 0} style="background: {bg(count, accents[i])}">
       {count > 0 ? count : '—'}
     </td>
   {/each}
@@ -90,22 +90,18 @@
     text-align: center;
     font-variant-numeric: tabular-nums;
     font-family: var(--rb-font-mono);
-    font-weight: 500;
+    font-weight: 400;
     font-size: var(--rb-fs-sm);
-    color: var(--rb-vellum);
+    color: var(--rb-vellum-faint);
     /* Inner border-like ring for tinted cells; the inline bg handles the fill */
     transition: filter var(--rb-dur-fast) var(--rb-ease-out);
     position: relative;
   }
-  .count:not([style*='transparent']):not([style*='rgba(0, 0, 0, 0)']) {
-    /* deeper text contrast against the colored fill */
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
-    color: var(--rb-vellum);
-  }
-  /* Empty count cells get a soft em-dash that doesn't shout */
-  .count:empty,
-  .count[style*='transparent'] {
-    color: var(--rb-vellum-faint);
+  /* Non-zero count cells: white bold text with drop shadow for legibility on any accent */
+  .count.has-count {
+    color: #ffffff;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
   }
 
   .max {
