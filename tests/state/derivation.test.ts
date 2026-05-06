@@ -16,7 +16,7 @@ describe('deriveRows', () => {
       makeDeck('A', [[3, 'Stupefy'], [2, 'Moonfall']]),
       makeDeck('B', [[3, 'Stupefy'], [1, 'Eclipse']])
     ];
-    const { mainRows, sideRows } = deriveRows(decks, { search: '', sort: 'alpha', deckFilter: undefined });
+    const { mainRows, sideRows } = deriveRows(decks, { search: '', sort: 'alpha', deckFilter: '' });
     expect(sideRows).toEqual([]);
     const stupefy = mainRows.find((r) => r.cardName === 'Stupefy');
     expect(stupefy).toBeDefined();
@@ -34,7 +34,7 @@ describe('deriveRows', () => {
       makeDeck('A', [[3, 'X']], [[1, 'Y']]),
       makeDeck('B', [[3, 'X']], [[1, 'Z']])
     ];
-    const { mainRows, sideRows } = deriveRows(decks, { search: '', sort: 'alpha', deckFilter: undefined });
+    const { mainRows, sideRows } = deriveRows(decks, { search: '', sort: 'alpha', deckFilter: '' });
     expect(mainRows[0].cardName).toBe('X');
     expect(mainRows[0].isCore).toBe(true);
     const y = sideRows.find((r) => r.cardName === 'Y')!;
@@ -43,7 +43,7 @@ describe('deriveRows', () => {
 
   it('alpha sort orders rows A–Z', () => {
     const decks = [makeDeck('A', [[1, 'Banana'], [1, 'Apple']])];
-    const { mainRows } = deriveRows(decks, { search: '', sort: 'alpha', deckFilter: undefined });
+    const { mainRows } = deriveRows(decks, { search: '', sort: 'alpha', deckFilter: '' });
     expect(mainRows.map((r) => r.cardName)).toEqual(['Apple', 'Banana']);
   });
 
@@ -52,19 +52,19 @@ describe('deriveRows', () => {
       makeDeck('A', [[1, 'Solo'], [3, 'Shared']]),
       makeDeck('B', [[2, 'Shared']])
     ];
-    const { mainRows } = deriveRows(decks, { search: '', sort: 'presence', deckFilter: undefined });
+    const { mainRows } = deriveRows(decks, { search: '', sort: 'presence', deckFilter: '' });
     expect(mainRows.map((r) => r.cardName)).toEqual(['Shared', 'Solo']);
   });
 
   it('total sort orders by total copies desc', () => {
     const decks = [makeDeck('A', [[3, 'Many'], [1, 'Few']])];
-    const { mainRows } = deriveRows(decks, { search: '', sort: 'total', deckFilter: undefined });
+    const { mainRows } = deriveRows(decks, { search: '', sort: 'total', deckFilter: '' });
     expect(mainRows.map((r) => r.cardName)).toEqual(['Many', 'Few']);
   });
 
   it('search filters rows by case-insensitive substring on name', () => {
     const decks = [makeDeck('A', [[1, 'Stupefy'], [1, 'Moonfall']])];
-    const { mainRows } = deriveRows(decks, { search: 'STUP', sort: 'alpha', deckFilter: undefined });
+    const { mainRows } = deriveRows(decks, { search: 'STUP', sort: 'alpha', deckFilter: '' });
     expect(mainRows.map((r) => r.cardName)).toEqual(['Stupefy']);
   });
 

@@ -27,7 +27,7 @@
   <label>
     <span class="label-text">Filter</span>
     <select bind:value={decksState.deckFilter}>
-      <option value={undefined}>All decks</option>
+      <option value="">All decks</option>
       {#each decksState.decks as d (d.id)}
         <option value={d.id}>{d.name}</option>
       {/each}

@@ -14,7 +14,7 @@ export type TableRow = {
 export type DeriveOptions = {
   search: string;
   sort: SortMode;
-  deckFilter: string | undefined;
+  deckFilter: string;
 };
 
 export type DerivedTable = {

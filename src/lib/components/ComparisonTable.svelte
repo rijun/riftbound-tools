@@ -44,6 +44,7 @@
             style="--accent: {deckAccent(deck)}"
             draggable="true"
             ondragstart={() => onDragStart(deck.id)}
+            ondragend={() => (dragId = undefined)}
             ondragover={onDragOver}
             ondrop={(e) => onDrop(e, i)}
           >

@@ -6,13 +6,15 @@ class DecksState {
   decks = $state<Deck[]>([]);
   search = $state('');
   sort = $state<SortMode>('presence');
-  /** id of a deck to focus the rows on (still shows other deck columns); undefined = no filter */
-  deckFilter = $state<string | undefined>(undefined);
+  /** id of a deck to focus the rows on (still shows other deck columns); '' = no filter */
+  deckFilter = $state<string>('');
 
   add(deck: Deck) {
     const existingIdx = this.decks.findIndex((d) => d.name === deck.name);
     if (existingIdx >= 0) {
-      this.decks[existingIdx] = deck;
+      // Preserve the existing deck's id so deckFilter and any expanded-row
+      // state pointing at the prior deck remain valid through replacement.
+      this.decks[existingIdx] = { ...deck, id: this.decks[existingIdx].id };
     } else {
       this.decks = [...this.decks, deck];
     }
@@ -20,7 +22,7 @@ class DecksState {
 
   remove(id: string) {
     this.decks = this.decks.filter((d) => d.id !== id);
-    if (this.deckFilter === id) this.deckFilter = undefined;
+    if (this.deckFilter === id) this.deckFilter = '';
   }
 
   move(id: string, toIndex: number) {
