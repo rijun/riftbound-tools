@@ -106,7 +106,8 @@
 
   .max {
     text-align: right;
-    color: var(--rb-vellum-dim);
+    color: #ffffff;
+    font-weight: 600;
     font-family: var(--rb-font-mono);
     font-variant-numeric: tabular-nums;
     font-size: var(--rb-fs-sm);
