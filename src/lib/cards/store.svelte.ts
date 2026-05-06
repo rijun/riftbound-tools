@@ -1,5 +1,5 @@
-import type { Card, CardDb } from './types.js';
-import { createResolver, type Resolver } from './resolver.js';
+import type { Card, CardDb } from './types.ts';
+import { createResolver, type Resolver } from './resolver.ts';
 
 const LS_KEY = 'riftbound:cards-db';
 
