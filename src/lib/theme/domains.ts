@@ -4,17 +4,19 @@ import type { Deck } from '../parser/types.ts';
 export const DOMAIN_ORDER = ['Body', 'Chaos', 'Mind', 'Calm', 'Order', 'Fury'] as const;
 export type Domain = (typeof DOMAIN_ORDER)[number];
 
-// Placeholder palette; final values selected during the frontend-design pass.
+// Final palette tuned for WCAG AA on the dark Riftbound canvas.
+// See tokens.css `--rb-domain-*` for the canonical values; these mirror them
+// so deck accents stay synced with the design system.
 export const DOMAIN_ACCENT: Record<Domain, string> = {
-  Body: '#c84d3b',
-  Chaos: '#7a3b9a',
-  Mind: '#3b6dc8',
-  Calm: '#4ba3c4',
-  Order: '#c9a96b',
-  Fury: '#c2456b'
+  Body: '#e2614f',
+  Chaos: '#b07ad7',
+  Mind: '#6da4ee',
+  Calm: '#5fc9d9',
+  Order: '#e6c279',
+  Fury: '#ee6aa1'
 };
 
-const NEUTRAL = '#7d808a';
+const NEUTRAL = '#8d93a6';
 
 function classifyRune(name: string): Domain | undefined {
   for (const d of DOMAIN_ORDER) {

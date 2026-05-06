@@ -46,23 +46,79 @@
   .detail {
     display: grid;
     grid-template-columns: 220px 1fr;
-    gap: 1rem;
+    gap: var(--rb-space-5);
     align-items: start;
   }
-  img { width: 100%; border-radius: 8px; }
-  h3 { margin: 0 0 0.5rem 0; }
-  .meta { display: flex; flex-wrap: wrap; gap: 0.5rem; opacity: 0.85; font-size: 0.9em; }
-  .meta span {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid #2a2d35;
-    padding: 0.1rem 0.45rem;
-    border-radius: 4px;
+  img {
+    width: 100%;
+    border-radius: var(--rb-radius-md);
+    border: 1px solid var(--rb-gold-deep);
+    box-shadow: var(--rb-shadow-md), 0 0 0 1px rgba(212, 176, 106, 0.1);
   }
-  .text { white-space: pre-wrap; }
-  .flavour { font-style: italic; opacity: 0.7; }
-  .set, .tags { font-size: 0.8em; opacity: 0.6; }
-  .missing { opacity: 0.75; font-style: italic; }
-  .id { opacity: 0.5; font-family: monospace; }
+  .fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rb-space-2);
+  }
+  h3 {
+    margin: 0;
+    font-family: var(--rb-font-display);
+    font-weight: 600;
+    font-size: var(--rb-fs-lg);
+    letter-spacing: var(--rb-tracking-wide);
+    color: var(--rb-gold);
+    text-transform: uppercase;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    font-size: var(--rb-fs-xs);
+  }
+  .meta span {
+    background: var(--rb-ink-2);
+    border: 1px solid var(--rb-line);
+    padding: 0.18rem 0.55rem;
+    border-radius: var(--rb-radius-xs);
+    color: var(--rb-vellum-mute);
+    font-family: var(--rb-font-mono);
+    text-transform: uppercase;
+    letter-spacing: var(--rb-tracking-wider);
+  }
+  .text {
+    white-space: pre-wrap;
+    color: var(--rb-vellum);
+    font-size: var(--rb-fs-base);
+    line-height: var(--rb-lh-base);
+    margin: var(--rb-space-1) 0;
+  }
+  .flavour {
+    font-family: var(--rb-font-display);
+    font-style: italic;
+    color: var(--rb-vellum-mute);
+    font-size: var(--rb-fs-sm);
+    border-left: 2px solid var(--rb-gold-deep);
+    padding-left: var(--rb-space-3);
+    margin: var(--rb-space-2) 0;
+  }
+  .set, .tags {
+    font-family: var(--rb-font-mono);
+    font-size: var(--rb-fs-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--rb-tracking-wide);
+    color: var(--rb-vellum-faint);
+    margin: 0;
+  }
+  .missing {
+    color: var(--rb-vellum-dim);
+    font-style: italic;
+  }
+  .id {
+    color: var(--rb-vellum-faint);
+    font-family: var(--rb-font-mono);
+  }
+
   @media (max-width: 720px) {
     .detail { grid-template-columns: 1fr; }
     img { max-width: 220px; }

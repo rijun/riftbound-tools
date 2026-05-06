@@ -86,25 +86,166 @@
 </div>
 
 <style>
-  .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.95em; }
-  th, :global(td) { padding: 0.4rem 0.6rem; text-align: left; border-bottom: 1px solid #1f2128; }
-  th { background: #14161c; position: sticky; top: 0; }
-  .card-col { min-width: 220px; }
-  .deck-col { min-width: 110px; border-bottom: 2px solid var(--accent, #555); }
-  .max-col { width: 60px; text-align: right; }
-  .deck-head { display: flex; align-items: center; gap: 0.5rem; }
-  .deck-name { flex: 1; }
-  .remove { background: transparent; color: #888; border: none; cursor: pointer; font-size: 1.1em; }
-  .remove:hover { color: #fff; }
-  .champion { font-size: 0.8em; opacity: 0.75; margin-top: 0.15rem; }
-  .section-header td {
-    background: #11131a;
+  .table-wrap {
+    overflow-x: auto;
+    background:
+      linear-gradient(180deg, var(--rb-ink-1) 0%, var(--rb-ink) 100%);
+    border: 1px solid var(--rb-line);
+    border-radius: var(--rb-radius-md);
+    box-shadow: var(--rb-shadow-md);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--rb-fs-base);
+  }
+
+  /* Default cell — also used by CardRow via :global */
+  th,
+  :global(td) {
+    padding: 0.55rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--rb-line);
+  }
+
+  /* Header row — chiseled feel */
+  thead th {
+    background: linear-gradient(180deg, var(--rb-ink-2) 0%, var(--rb-ink-1) 100%);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    font-family: var(--rb-font-display);
     font-weight: 600;
     text-transform: uppercase;
-    font-size: 0.75em;
-    letter-spacing: 0.06em;
-    padding: 0.5rem 0.6rem;
+    letter-spacing: var(--rb-tracking-wide);
+    font-size: var(--rb-fs-sm);
+    color: var(--rb-vellum);
+    border-bottom: 1px solid var(--rb-line-strong);
   }
-  .section-header.sideboard td { border-top: 3px solid #2a2d35; }
+  /* Inset hairline beneath header — gives that chiseled separation */
+  thead::after { content: ''; }
+
+  .card-col {
+    min-width: 240px;
+  }
+
+  .deck-col {
+    min-width: 120px;
+    border-bottom: 2px solid var(--accent, var(--rb-line-strong));
+    /* Subtle accent gradient on top of the header */
+    box-shadow:
+      inset 0 -3px 0 -1px var(--accent, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    cursor: grab;
+  }
+  .deck-col:active { cursor: grabbing; }
+
+  .max-col {
+    width: 70px;
+    text-align: right;
+    color: var(--rb-vellum-dim);
+    font-family: var(--rb-font-mono);
+    font-size: var(--rb-fs-sm);
+  }
+
+  .deck-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .deck-name {
+    flex: 1;
+    font-family: var(--rb-font-display);
+    font-weight: 600;
+    color: var(--rb-vellum);
+    /* Tint the deck name slightly with its accent */
+    text-shadow: 0 0 14px color-mix(in srgb, var(--accent, transparent) 30%, transparent);
+  }
+
+  .remove {
+    background: transparent;
+    color: var(--rb-vellum-faint);
+    border: 1px solid transparent;
+    width: 22px;
+    height: 22px;
+    line-height: 1;
+    border-radius: var(--rb-radius-xs);
+    cursor: pointer;
+    font-size: 1.05em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: color var(--rb-dur-fast) var(--rb-ease-out),
+                background var(--rb-dur-fast) var(--rb-ease-out),
+                border-color var(--rb-dur-fast) var(--rb-ease-out);
+  }
+  .remove:hover {
+    color: var(--rb-blood);
+    border-color: var(--rb-blood);
+    background: rgba(214, 90, 71, 0.1);
+  }
+
+  .champion {
+    font-family: var(--rb-font-mono);
+    font-size: var(--rb-fs-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--rb-tracking-wider);
+    color: var(--rb-vellum-dim);
+    margin-top: 0.25rem;
+  }
+  /* Tiny accent pip before champion */
+  .champion::before {
+    content: '◆';
+    margin-right: 0.4em;
+    color: var(--accent, var(--rb-gold));
+    opacity: 0.85;
+  }
+
+  /* Section headers (Main / Sideboard) */
+  .section-header td {
+    background:
+      linear-gradient(90deg,
+        transparent 0,
+        rgba(212, 176, 106, 0.06) 30%,
+        rgba(212, 176, 106, 0.06) 70%,
+        transparent 100%),
+      var(--rb-ink-1);
+    font-family: var(--rb-font-display);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: var(--rb-fs-sm);
+    letter-spacing: var(--rb-tracking-widest);
+    color: var(--rb-gold);
+    padding: 0.6rem 0.8rem;
+    position: relative;
+  }
+  /* Decorative diamond glyph at the start of each section header */
+  .section-header td::before {
+    content: '◇';
+    margin-right: 0.6em;
+    color: var(--rb-gold);
+    opacity: 0.7;
+  }
+
+  /* Sideboard section — visually heavier divider, with double-rule */
+  .section-header.sideboard td {
+    border-top: 1px solid var(--rb-gold-deep);
+    box-shadow: inset 0 3px 0 -1px var(--rb-line-strong),
+                inset 0 4px 0 -1px var(--rb-ink),
+                inset 0 6px 0 -1px var(--rb-gold-deep);
+    margin-top: 4px;
+    color: var(--rb-ember);
+  }
+  .section-header.sideboard td::before {
+    content: '✦';
+    color: var(--rb-ember);
+  }
+
+  @media (max-width: 768px) {
+    table { font-size: var(--rb-fs-sm); }
+    .card-col { min-width: 180px; }
+    .deck-col { min-width: 96px; }
+  }
 </style>

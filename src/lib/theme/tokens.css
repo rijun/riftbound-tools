@@ -1,0 +1,110 @@
+/* ============================================================
+   Riftbound Decklist Analyser — Design Tokens
+   Aesthetic: arcane scriptorium x dark forge.
+   Deep ink black, parchment-cream text, gold and rune accents,
+   chiseled serif display, geometric sans body.
+   ============================================================ */
+
+:root {
+  /* ----- Surfaces & ink (deep, slightly warm-cool) ----- */
+  --rb-void:        #07080c;   /* deepest, page edge */
+  --rb-ink:         #0b0d13;   /* base background */
+  --rb-ink-1:      #10131c;   /* raised surface 1 (panels, table head) */
+  --rb-ink-2:      #161a26;   /* raised surface 2 (cards, inputs) */
+  --rb-ink-3:      #1d2231;   /* raised surface 3 (hover) */
+  --rb-line:        #242a3a;   /* hairline borders */
+  --rb-line-strong: #3a4256;   /* divider, section break */
+
+  /* ----- Foreground (parchment-cream, not pure white) ----- */
+  --rb-vellum:      #efe7d2;   /* primary text — warm cream */
+  --rb-vellum-mute: #c5c0ae;   /* secondary text */
+  --rb-vellum-dim:  #8d8a7c;   /* tertiary, captions */
+  --rb-vellum-faint:#6a6859;   /* very faint */
+
+  /* ----- Brand & accents ----- */
+  --rb-gold:        #d4b06a;   /* core / champion / heading flourish */
+  --rb-gold-deep:   #8a6f3d;
+  --rb-gold-glow:   rgba(212, 176, 106, 0.22);
+  --rb-rift:        #6f7cff;   /* signature "rift" cool violet-blue glow */
+  --rb-rift-soft:   rgba(111, 124, 255, 0.18);
+  --rb-ember:       #e8a45c;   /* warning / sideboard accent */
+  --rb-blood:       #d65a47;   /* error */
+
+  /* ----- Domain accents (tuned for AA on dark surfaces) ----- */
+  --rb-domain-body:  #e2614f;  /* warm red, brighter than placeholder for contrast */
+  --rb-domain-chaos: #b07ad7;  /* purple, lifted */
+  --rb-domain-mind:  #6da4ee;  /* sky blue */
+  --rb-domain-calm:  #5fc9d9;  /* teal */
+  --rb-domain-order: #e6c279;  /* gold */
+  --rb-domain-fury:  #ee6aa1;  /* magenta-pink */
+  --rb-domain-neutral: #8d93a6;
+
+  /* ----- Type scale ----- */
+  --rb-font-display: 'Cinzel', 'Trajan Pro', 'Cormorant Garamond', Georgia, serif;
+  --rb-font-body:    'Sora', 'Manrope', system-ui, -apple-system, sans-serif;
+  --rb-font-mono:    'JetBrains Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --rb-fs-xs:   0.72rem;
+  --rb-fs-sm:   0.82rem;
+  --rb-fs-base: 0.94rem;
+  --rb-fs-md:   1.05rem;
+  --rb-fs-lg:   1.25rem;
+  --rb-fs-xl:   1.6rem;
+  --rb-fs-2xl:  2.2rem;
+  --rb-fs-display: clamp(1.85rem, 1.1rem + 2.2vw, 3rem);
+
+  --rb-lh-tight: 1.15;
+  --rb-lh-snug:  1.35;
+  --rb-lh-base:  1.55;
+
+  --rb-tracking-tight:  -0.01em;
+  --rb-tracking-normal: 0;
+  --rb-tracking-wide:   0.06em;
+  --rb-tracking-wider:  0.18em;
+  --rb-tracking-widest: 0.32em;
+
+  /* ----- Spacing (4px base) ----- */
+  --rb-space-1:  0.25rem;
+  --rb-space-2:  0.5rem;
+  --rb-space-3:  0.75rem;
+  --rb-space-4:  1rem;
+  --rb-space-5:  1.5rem;
+  --rb-space-6:  2rem;
+  --rb-space-7:  3rem;
+  --rb-space-8:  4rem;
+
+  /* ----- Radii ----- */
+  --rb-radius-xs: 2px;
+  --rb-radius-sm: 4px;
+  --rb-radius-md: 6px;
+  --rb-radius-lg: 10px;
+  --rb-radius-xl: 14px;
+
+  /* ----- Shadows ----- */
+  --rb-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --rb-shadow-md: 0 6px 18px rgba(0, 0, 0, 0.5);
+  --rb-shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.55);
+  --rb-shadow-glow-rift: 0 0 0 1px rgba(111, 124, 255, 0.3),
+                         0 14px 40px rgba(111, 124, 255, 0.18);
+  --rb-shadow-glow-gold: 0 0 0 1px rgba(212, 176, 106, 0.35),
+                         0 8px 26px rgba(212, 176, 106, 0.18);
+
+  /* ----- Motion ----- */
+  --rb-ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
+  --rb-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --rb-dur-fast:   140ms;
+  --rb-dur-base:   220ms;
+  --rb-dur-slow:   420ms;
+
+  /* ----- Layout ----- */
+  --rb-container-max: 1440px;
+  --rb-content-pad-x: clamp(1rem, 1rem + 1vw, 2.25rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --rb-dur-fast: 0ms;
+    --rb-dur-base: 0ms;
+    --rb-dur-slow: 0ms;
+  }
+}
