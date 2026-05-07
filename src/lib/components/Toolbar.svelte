@@ -1,12 +1,18 @@
 <script lang="ts">
   import { decksState, type SortMode } from '$lib/state/decks.svelte.ts';
   import { cardStore } from '$lib/cards/store.svelte.ts';
+  import { buildComparison, downloadComparison, defaultFilename } from '$lib/state/comparison.ts';
 
   const sortOptions: Array<{ value: SortMode; label: string }> = [
     { value: 'presence', label: 'Presence' },
     { value: 'alpha', label: 'A–Z' },
     { value: 'total', label: 'Total copies' }
   ];
+
+  function exportComparison() {
+    const comparison = buildComparison(decksState.decks);
+    downloadComparison(comparison, defaultFilename());
+  }
 </script>
 
 <div class="toolbar">
@@ -33,6 +39,14 @@
       {/each}
     </select>
   </label>
+  <button
+    class="refresh"
+    onclick={exportComparison}
+    disabled={decksState.decks.length === 0}
+    title={decksState.decks.length === 0 ? 'Add decks first' : 'Download the current comparison as JSON'}
+  >
+    Export comparison
+  </button>
   <button class="refresh" onclick={() => cardStore.refreshFromApi()} disabled={cardStore.refreshState.status === 'loading'}>
     <span class="refresh-icon" aria-hidden="true" class:spinning={cardStore.refreshState.status === 'loading'}>↻</span>
     <span>{cardStore.refreshState.status === 'loading' ? 'Refreshing…' : 'Refresh card DB'}</span>

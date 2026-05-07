@@ -1,6 +1,7 @@
 <script lang="ts">
   import DeckUploader from '$lib/components/DeckUploader.svelte';
   import DeckCodePanel from '$lib/components/DeckCodePanel.svelte';
+  import ComparisonUploader from '$lib/components/ComparisonUploader.svelte';
   import Toolbar from '$lib/components/Toolbar.svelte';
   import ComparisonTable from '$lib/components/ComparisonTable.svelte';
   import MetaPanel from '$lib/components/MetaPanel.svelte';
@@ -35,8 +36,17 @@
     </div>
   </header>
 
-  <DeckUploader />
-  <DeckCodePanel />
+  <div class="upload-grid">
+    <div class="decks-side">
+      <h2 class="side-label">Decks</h2>
+      <DeckUploader />
+      <DeckCodePanel />
+    </div>
+    <div class="comparisons-side">
+      <h2 class="side-label">Comparisons</h2>
+      <ComparisonUploader />
+    </div>
+  </div>
 
   {#if decksState.decks.length > 0}
     <MetaPanel />
@@ -219,7 +229,31 @@
     to   { transform: rotate(360deg); }
   }
 
+  /* ===== Upload grid ===== */
+  .upload-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .decks-side, .comparisons-side {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .side-label {
+    margin: 0;
+    font-size: var(--rb-fs-md, 0.95rem);
+    font-weight: 500;
+    color: var(--rb-vellum-dim, #c9c9cf);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
   /* ===== Responsive ===== */
+  @media (max-width: 720px) {
+    .upload-grid { grid-template-columns: 1fr; }
+  }
   @media (max-width: 640px) {
     .masthead-inner {
       grid-template-columns: 1fr;
