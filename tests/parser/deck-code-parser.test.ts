@@ -76,4 +76,52 @@ describe('parseDeckCode', () => {
     const inMain = deck.zones.main.find((e) => e.cardName === 'Diana - Lunari');
     expect(inMain?.count).toBe(1);
   });
+
+  it('backfills the champion subtitle when chosenChampion is absent and mainDeck has exactly one Champion-supertype Unit', () => {
+    const cards = [
+      { id: 'm-95',  name: 'Stupefy',         collector_number: 95,  set: { set_id: 'OGN', label: 'Origins' }, classification: { type: 'Spell' } },
+      { id: 'm-103', name: 'Diana - Lunari',  collector_number: 103, set: { set_id: 'OGN', label: 'Origins' }, classification: { type: 'Unit', supertype: 'Champion' } }
+    ];
+    // Build a code WITHOUT chosenChampion (3rd arg omitted).
+    const code = getCodeFromDeck(
+      [{ cardCode: 'OGN-095', count: 3 }, { cardCode: 'OGN-103', count: 4 }],
+      []
+    );
+    const deck = parseDeckCode(code, 'D', createResolver(cards));
+    // Subtitle populated from backfill.
+    expect(deck.zones.champion).toHaveLength(1);
+    expect(deck.zones.champion[0].cardName).toBe('Diana - Lunari');
+    // Main count NOT mirrored — Diana stays at the 4 the code carried.
+    const inMain = deck.zones.main.find((e) => e.cardName === 'Diana - Lunari');
+    expect(inMain?.count).toBe(4);
+  });
+
+  it('does not backfill when multiple Champion-supertype Units exist in main', () => {
+    const cards = [
+      { id: 'm-103', name: 'Diana - Lunari', collector_number: 103, set: { set_id: 'OGN', label: 'Origins' }, classification: { type: 'Unit', supertype: 'Champion' } },
+      { id: 'm-104', name: 'Hwei - Brooding Painter', collector_number: 104, set: { set_id: 'OGN', label: 'Origins' }, classification: { type: 'Unit', supertype: 'Champion' } }
+    ];
+    const code = getCodeFromDeck(
+      [{ cardCode: 'OGN-103', count: 1 }, { cardCode: 'OGN-104', count: 1 }],
+      []
+    );
+    const deck = parseDeckCode(code, 'D', createResolver(cards));
+    expect(deck.zones.champion).toHaveLength(0);
+  });
+
+  it('does not backfill when the explicit chosenChampion field is set', () => {
+    const cards = [
+      { id: 'm-103', name: 'Diana - Lunari', collector_number: 103, set: { set_id: 'OGN', label: 'Origins' }, classification: { type: 'Unit', supertype: 'Champion' } },
+      { id: 'm-104', name: 'Hwei - Brooding Painter', collector_number: 104, set: { set_id: 'OGN', label: 'Origins' }, classification: { type: 'Unit', supertype: 'Champion' } }
+    ];
+    const code = getCodeFromDeck(
+      [{ cardCode: 'OGN-104', count: 3 }],
+      [],
+      'OGN-103' // explicit chosen champion
+    );
+    const deck = parseDeckCode(code, 'D', createResolver(cards));
+    // Only Diana (the explicit one), not Hwei.
+    expect(deck.zones.champion).toHaveLength(1);
+    expect(deck.zones.champion[0].cardName).toBe('Diana - Lunari');
+  });
 });

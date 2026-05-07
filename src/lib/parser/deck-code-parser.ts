@@ -70,6 +70,25 @@ export function parseDeckCode(code: string, name: string, resolver: Resolver): D
     const existing = deck.zones.main.find((e) => e.cardName === entry.cardName);
     if (existing) existing.count += 1;
     else deck.zones.main.push({ ...entry });
+  } else {
+    // Backfill: V3 codes may omit chosenChampion. If the main deck contains
+    // exactly one Champion-supertype Unit, treat it as the chosen one for
+    // subtitle purposes only — don't mirror into main, since the encoder
+    // likely already counted the chosen copy in the main-deck count.
+    const champCandidates = (decoded.mainDeck ?? []).filter((item) => {
+      const c = resolver.byShortCode(item.cardCode);
+      return c?.classification?.supertype === 'Champion';
+    });
+    if (champCandidates.length === 1) {
+      const cand = champCandidates[0];
+      const card = resolver.byShortCode(cand.cardCode);
+      deck.zones.champion.push({
+        count: 1,
+        cardId: card?.id ?? cand.cardCode,
+        cardName: card?.name ?? cand.cardCode,
+        raw: `1 ${cand.cardCode}`
+      });
+    }
   }
 
   return deck;
