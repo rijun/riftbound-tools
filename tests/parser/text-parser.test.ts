@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { parseText } from '../../src/lib/parser/text-parser.ts';
+import { createResolver } from '../../src/lib/cards/resolver.ts';
 
 function fixture(name: string): string {
   return readFileSync(resolve('tests/fixtures', name), 'utf8');
@@ -50,5 +51,14 @@ describe('parseText', () => {
     const deck = parseText(text, 'x.txt');
     expect(deck.zones.legend[0].count).toBe(1);
     expect(deck.zones.legend[0].cardName).toBe('Diana, Scorn of the Moon');
+  });
+
+  it('canonicalizes card name to DB form when resolver is provided', () => {
+    const cards = [{ id: 'mongo-1', name: 'Hwei - Brooding Painter' }];
+    const resolver = createResolver(cards);
+    const text = 'MainDeck:\n3 Hwei, Brooding Painter\n';
+    const deck = parseText(text, 'x.txt', resolver);
+    expect(deck.zones.main[0].cardName).toBe('Hwei - Brooding Painter');
+    expect(deck.zones.main[0].cardId).toBe('mongo-1');
   });
 });

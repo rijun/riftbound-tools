@@ -1,4 +1,5 @@
-import { emptyZones, type Deck, type Zone } from './types.ts';
+import { emptyZones, type Deck, type DeckEntry, type Zone } from './types.ts';
+import type { Resolver } from '../cards/resolver.ts';
 
 const HEADER_TO_ZONE: Record<string, Zone> = {
   legend: 'legend',
@@ -29,7 +30,7 @@ function uuid(): string {
     .crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2);
 }
 
-export function parseText(text: string, filename: string): Deck {
+export function parseText(text: string, filename: string, resolver?: Resolver): Deck {
   const deck: Deck = {
     id: uuid(),
     name: deckNameFromFilename(filename),
@@ -66,7 +67,18 @@ export function parseText(text: string, filename: string): Deck {
         cardId = paren[1];
         name = name.replace(PAREN_SET_RE, '').trim();
       }
-      deck.zones[zone].push({ count, cardName: name, cardId, raw: line.trim() });
+      const entry: DeckEntry = { count, cardName: name, cardId, raw: line.trim() };
+      if (resolver) {
+        const card =
+          resolver.byName(entry.cardName) ??
+          (entry.cardId ? resolver.byShortCode(entry.cardId) : undefined) ??
+          (entry.cardId ? resolver.byId(entry.cardId) : undefined);
+        if (card) {
+          entry.cardName = card.name;
+          entry.cardId = card.id;
+        }
+      }
+      deck.zones[zone].push(entry);
       continue;
     }
 

@@ -12,7 +12,7 @@ export async function parseFile(file: File, resolver: Resolver): Promise<ParseRe
   const filename = file.name;
   const isJson = filename.toLowerCase().endsWith('.json') || text.trimStart().startsWith('{');
   try {
-    const deck = isJson ? parseJson(text, filename, resolver) : parseText(text, filename);
+    const deck = isJson ? parseJson(text, filename, resolver) : parseText(text, filename, resolver);
     return { ok: true, deck };
   } catch (e) {
     return { ok: false, filename, error: (e as Error).message };

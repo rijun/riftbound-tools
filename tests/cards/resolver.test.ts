@@ -98,3 +98,23 @@ describe('byShortCode', () => {
     expect(r.byShortCode('OGN')).toBeUndefined();
   });
 });
+
+describe('byName comma/dash normalization', () => {
+  it('resolves a name that uses commas where the DB uses dashes', () => {
+    const cards = [{ id: '1', name: 'Hwei - Brooding Painter' }];
+    const r = createResolver(cards);
+    expect(r.byName('Hwei, Brooding Painter')?.id).toBe('1');
+  });
+
+  it('resolves a name that uses dashes where the DB uses commas', () => {
+    const cards = [{ id: '1', name: 'Diana, Lunari' }];
+    const r = createResolver(cards);
+    expect(r.byName('Diana - Lunari')?.id).toBe('1');
+  });
+
+  it('treats normalized matches as case-insensitive', () => {
+    const cards = [{ id: '1', name: 'Hwei - Brooding Painter' }];
+    const r = createResolver(cards);
+    expect(r.byName('HWEI, BROODING PAINTER')?.id).toBe('1');
+  });
+});

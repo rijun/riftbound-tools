@@ -8,6 +8,10 @@ export type Resolver = {
 
 const SHORT_CODE_RE = /^([A-Za-z]{2,5})-(\d{1,4})$/;
 
+function normalizeName(s: string): string {
+  return s.toLowerCase().replace(/\s*[,]\s*/g, ' - ').replace(/\s+/g, ' ').trim();
+}
+
 function levenshtein(a: string, b: string): number {
   if (a === b) return 0;
   const m = a.length;
@@ -32,11 +36,14 @@ export function createResolver(cards: Card[]): Resolver {
   const byIdMap = new Map<string, Card>();
   const byExactName = new Map<string, Card>();
   const byLowerName = new Map<string, Card>();
+  const byNormalizedName = new Map<string, Card>();
   const byShortCodeMap = new Map<string, Card>();
   for (const c of cards) {
     byIdMap.set(c.id, c);
     byExactName.set(c.name, c);
     byLowerName.set(c.name.toLowerCase(), c);
+    const norm = normalizeName(c.name);
+    if (!byNormalizedName.has(norm)) byNormalizedName.set(norm, c);
     if (c.set?.set_id && typeof c.collector_number === 'number' && !c.metadata?.alternate_art) {
       const key = `${c.set.set_id.toLowerCase()}-${c.collector_number}`;
       // First non-alt entry wins; later ones (rare duplicates) ignored.
@@ -57,6 +64,8 @@ export function createResolver(cards: Card[]): Resolver {
       if (exact) return exact;
       const ci = byLowerName.get(name.toLowerCase());
       if (ci) return ci;
+      const norm = byNormalizedName.get(normalizeName(name));
+      if (norm) return norm;
       // fuzzy fallback within distance 2
       const target = name.toLowerCase();
       let best: { card: Card; d: number } | undefined;
