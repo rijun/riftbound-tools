@@ -1,6 +1,9 @@
 import type { Deck } from '../parser/types.ts';
+import { buildComparison, serialize, parseComparison, InvalidComparisonError } from './comparison.ts';
 
 export type SortMode = 'alpha' | 'presence' | 'total';
+
+const LS_KEY = 'riftbound:active-comparison';
 
 class DecksState {
   decks = $state<Deck[]>([]);
@@ -18,11 +21,13 @@ class DecksState {
     } else {
       this.decks = [...this.decks, deck];
     }
+    this.#persist();
   }
 
   remove(id: string) {
     this.decks = this.decks.filter((d) => d.id !== id);
     if (this.deckFilter === id) this.deckFilter = '';
+    this.#persist();
   }
 
   move(id: string, toIndex: number) {
@@ -32,10 +37,57 @@ class DecksState {
     const [item] = next.splice(fromIndex, 1);
     next.splice(toIndex, 0, item);
     this.decks = next;
+    this.#persist();
   }
 
   clear() {
     this.decks = [];
+    this.deckFilter = '';
+    this.#persist();
+  }
+
+  /**
+   * Atomic bulk replace — used by comparison-file import so we persist once,
+   * not once per deck.
+   */
+  replaceAll(decks: Deck[]) {
+    this.decks = [...decks];
+    this.deckFilter = '';
+    this.#persist();
+  }
+
+  /**
+   * Restore from localStorage if a valid value is present. Call once on app boot.
+   */
+  restore() {
+    if (typeof localStorage === 'undefined') return;
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return;
+    try {
+      const comparison = parseComparison(raw);
+      this.decks = comparison.decks;
+      this.deckFilter = '';
+    } catch (e) {
+      if (e instanceof InvalidComparisonError) {
+        // Stored value is malformed — drop it silently.
+        localStorage.removeItem(LS_KEY);
+      }
+      // Other errors: leave state untouched.
+    }
+  }
+
+  #persist() {
+    if (typeof localStorage === 'undefined') return;
+    try {
+      if (this.decks.length === 0) {
+        localStorage.removeItem(LS_KEY);
+        return;
+      }
+      const payload = serialize(buildComparison(this.decks));
+      localStorage.setItem(LS_KEY, payload);
+    } catch {
+      // Quota / private mode / etc. — silently ignore; in-memory state is fine.
+    }
   }
 }
 

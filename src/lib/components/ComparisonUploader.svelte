@@ -11,8 +11,7 @@
       const text = await file.text();
       const comparison = parseComparison(text);
       const previous = decksState.decks.length;
-      decksState.clear();
-      for (const d of comparison.decks) decksState.add(d);
+      decksState.replaceAll(comparison.decks);
       addToast({
         kind: 'info',
         message: previous > 0
