@@ -1,5 +1,6 @@
 <script lang="ts">
   import { cardStore } from '$lib/cards/store.svelte.ts';
+  import CardText from './CardText.svelte';
 
   let { cardName, cardId }: { cardName: string; cardId?: string } = $props();
 
@@ -32,7 +33,7 @@
         {#if card.attributes?.power != null}<span>Power {card.attributes.power}</span>{/if}
         {#if card.attributes?.might != null}<span>Might {card.attributes.might}</span>{/if}
       </p>
-      {#if card.text?.plain}<p class="text">{card.text.plain}</p>{/if}
+      {#if card.text?.plain}<p class="text"><CardText text={card.text.plain} /></p>{/if}
       {#if card.text?.flavour}<p class="flavour">{card.text.flavour}</p>{/if}
       {#if card.set}<p class="set">{card.set.label} · {card.collector_number ?? card.id}</p>{/if}
       {#if card.tags && card.tags.length > 0}
