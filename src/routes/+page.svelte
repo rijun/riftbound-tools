@@ -242,12 +242,27 @@
     gap: 0.75rem;
   }
   .side-label {
-    margin: 0;
-    font-size: var(--rb-fs-md, 0.95rem);
+    margin: 0 0 var(--rb-space-1);
+    padding-bottom: var(--rb-space-2);
+    font-family: var(--rb-font-mono);
+    font-size: var(--rb-fs-xs);
     font-weight: 500;
-    color: var(--rb-vellum-dim, #c9c9cf);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: var(--rb-tracking-widest);
+    color: var(--rb-gold);
+    opacity: 0.85;
+    border-bottom: 1px solid var(--rb-line);
+    position: relative;
+  }
+  .side-label::after {
+    /* tiny gold tick under the label, masthead echo */
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 1.5rem;
+    height: 1px;
+    background: linear-gradient(to right, var(--rb-gold), transparent);
   }
 
   /* ===== Responsive ===== */
