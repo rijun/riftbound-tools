@@ -17,7 +17,15 @@
     <div class="grid">
       {#each decksState.decks as d (d.id)}
         <article class="card" style="--accent: {deckAccent(d)}">
-          <h3>{d.name}</h3>
+          <header class="card-head">
+            <h3>{d.name}</h3>
+            <button
+              class="remove"
+              onclick={() => decksState.remove(d.id)}
+              aria-label="Remove deck {d.name}"
+              title="Remove deck"
+            >×</button>
+          </header>
           {#if d.zones.legend[0]}
             <p class="line"><span class="label">Legend:</span> {d.zones.legend[0].cardName}</p>
           {/if}
@@ -128,6 +136,31 @@
     transform: translateY(-2px);
     border-color: color-mix(in srgb, var(--accent, var(--rb-line)) 40%, var(--rb-line));
     box-shadow: var(--rb-shadow-md);
+  }
+
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .card-head h3 {
+    margin: 0 0 0.25rem;
+  }
+  .remove {
+    background: transparent;
+    color: var(--rb-vellum-dim, #888);
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    line-height: 1;
+    padding: 0 0.2em;
+    border-radius: 4px;
+    transition: color var(--rb-dur-fast, 0.12s) ease, background var(--rb-dur-fast, 0.12s) ease;
+  }
+  .remove:hover {
+    color: var(--rb-vellum, #fff);
+    background: rgba(200, 77, 59, 0.15);
   }
 
   h3 {

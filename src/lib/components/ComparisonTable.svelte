@@ -50,7 +50,6 @@
           >
             <div class="deck-head">
               <span class="deck-name">{deck.name}</span>
-              <button class="remove" onclick={() => decksState.remove(deck.id)} aria-label="Remove deck">×</button>
             </div>
             {#if deck.zones.champion[0]}
               <div class="champion">{deck.zones.champion[0].cardName}</div>
@@ -162,30 +161,6 @@
     color: var(--rb-vellum);
     /* Tint the deck name slightly with its accent */
     text-shadow: 0 0 14px color-mix(in srgb, var(--accent, transparent) 30%, transparent);
-  }
-
-  .remove {
-    background: transparent;
-    color: var(--rb-vellum-faint);
-    border: 1px solid transparent;
-    width: 22px;
-    height: 22px;
-    line-height: 1;
-    border-radius: var(--rb-radius-xs);
-    cursor: pointer;
-    font-size: 1.05em;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    transition: color var(--rb-dur-fast) var(--rb-ease-out),
-                background var(--rb-dur-fast) var(--rb-ease-out),
-                border-color var(--rb-dur-fast) var(--rb-ease-out);
-  }
-  .remove:hover {
-    color: var(--rb-blood);
-    border-color: var(--rb-blood);
-    background: rgba(214, 90, 71, 0.1);
   }
 
   .champion {
