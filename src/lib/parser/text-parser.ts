@@ -85,5 +85,16 @@ export function parseText(text: string, filename: string, resolver?: Resolver): 
     deck.warnings.push(`Unparsed line: ${line}`);
   }
 
+  // Mirror chosen champions into the main deck — they are also regular cards.
+  for (const champEntry of deck.zones.champion) {
+    const existing = deck.zones.main.find((e) => e.cardName === champEntry.cardName);
+    if (existing) {
+      existing.count += champEntry.count;
+    } else {
+      // Clone so mutations to one zone don't bleed into the other.
+      deck.zones.main.push({ ...champEntry });
+    }
+  }
+
   return deck;
 }

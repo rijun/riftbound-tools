@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { parseDeckCode } from '../../src/lib/parser/deck-code-parser.ts';
 import { createResolver } from '../../src/lib/cards/resolver.ts';
 import type { Card } from '../../src/lib/cards/types.ts';
+import { getCodeFromDeck } from '@piltoverarchive/riftbound-deck-codes';
 
 // Cards crafted to match the README example deck code:
 // CIAAAAAAAAAQCAAAA4AACAIAABMQAAILAAAAICIMDMOVOX3AM5UHIAIDAAACO6XYAEAQKAAABX3QDGACUABKIAQAAEBQAAAWDBOQCAQAABMHE
@@ -57,5 +58,22 @@ describe('parseDeckCode', () => {
 
   it('throws a clear error on a malformed deck code', () => {
     expect(() => parseDeckCode('!!! not a code', 'X', createResolver(cards))).toThrow(/Invalid deck code/);
+  });
+
+  it('mirrors chosen champion into main deck', () => {
+    const champCards: Card[] = [
+      { id: 'm-95',  name: 'Stupefy',        collector_number: 95,  set: { set_id: 'OGN', label: 'Origins' }, classification: { type: 'Spell' } },
+      { id: 'm-103', name: 'Diana - Lunari', collector_number: 103, set: { set_id: 'OGN', label: 'Origins' }, classification: { type: 'Unit', supertype: 'Champion' } }
+    ];
+    const code = getCodeFromDeck(
+      [{ cardCode: 'OGN-095', count: 3 }],
+      [],
+      'OGN-103'
+    );
+    const deck = parseDeckCode(code, 'D', createResolver(champCards));
+    expect(deck.zones.champion).toHaveLength(1);
+    expect(deck.zones.champion[0].cardName).toBe('Diana - Lunari');
+    const inMain = deck.zones.main.find((e) => e.cardName === 'Diana - Lunari');
+    expect(inMain?.count).toBe(1);
   });
 });

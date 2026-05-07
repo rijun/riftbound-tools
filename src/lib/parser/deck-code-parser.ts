@@ -66,6 +66,10 @@ export function parseDeckCode(code: string, name: string, resolver: Resolver): D
     const { entry, card } = makeEntry(decoded.chosenChampion, 1, resolver);
     if (!card) deck.warnings.push(`Unresolved chosen champion code: ${decoded.chosenChampion}`);
     deck.zones.champion.push(entry);
+    // Mirror into main — chosen champion is also a regular main-deck card.
+    const existing = deck.zones.main.find((e) => e.cardName === entry.cardName);
+    if (existing) existing.count += 1;
+    else deck.zones.main.push({ ...entry });
   }
 
   return deck;

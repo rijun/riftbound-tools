@@ -61,4 +61,19 @@ describe('parseText', () => {
     expect(deck.zones.main[0].cardName).toBe('Hwei - Brooding Painter');
     expect(deck.zones.main[0].cardId).toBe('mongo-1');
   });
+
+  it('mirrors chosen champion into main deck', () => {
+    const text = 'Champion:\n1 Diana, Lunari\nMainDeck:\n3 Stupefy\n';
+    const deck = parseText(text, 'x.txt');
+    expect(deck.zones.champion).toHaveLength(1);
+    const inMain = deck.zones.main.find((e) => e.cardName === 'Diana, Lunari');
+    expect(inMain?.count).toBe(1);
+  });
+
+  it('increments existing main-deck count when champion already listed in main', () => {
+    const text = 'Champion:\n1 Diana, Lunari\nMainDeck:\n2 Diana, Lunari\n3 Stupefy\n';
+    const deck = parseText(text, 'x.txt');
+    const inMain = deck.zones.main.find((e) => e.cardName === 'Diana, Lunari');
+    expect(inMain?.count).toBe(3);
+  });
 });
