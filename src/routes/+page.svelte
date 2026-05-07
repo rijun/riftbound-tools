@@ -1,5 +1,6 @@
 <script lang="ts">
   import DeckUploader from '$lib/components/DeckUploader.svelte';
+  import DeckCodePanel from '$lib/components/DeckCodePanel.svelte';
   import Toolbar from '$lib/components/Toolbar.svelte';
   import ComparisonTable from '$lib/components/ComparisonTable.svelte';
   import MetaPanel from '$lib/components/MetaPanel.svelte';
@@ -35,6 +36,7 @@
   </header>
 
   <DeckUploader />
+  <DeckCodePanel />
 
   {#if decksState.decks.length > 0}
     <MetaPanel />

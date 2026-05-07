@@ -25,7 +25,7 @@ export type DeckEntry = {
 export type Deck = {
   id: string;
   name: string;
-  source: 'text' | 'json';
+  source: 'text' | 'code';
   zones: Record<Zone, DeckEntry[]>;
   warnings: string[];
 };
