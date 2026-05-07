@@ -65,12 +65,12 @@
     </svg>
   </span>
   <p class="uploader-title">Drop your decklists here</p>
-  <p class="uploader-sub">.txt or .json &mdash; or click to summon the file picker</p>
+  <p class="uploader-sub">Drop .txt deck files &mdash; or click to summon the file picker</p>
   <input
     bind:this={inputEl}
     type="file"
     multiple
-    accept=".txt,.json,application/json,text/plain"
+    accept=".txt,text/plain"
     onchange={onChange}
     hidden
   />
