@@ -27,7 +27,7 @@
       </div>
       <div class="masthead-text">
         <p class="eyebrow">Codex of the Rift</p>
-        <h1>Riftbound <span class="amp">&amp;</span> Decklist Analyser</h1>
+        <h1>Riftbound Decklist Analyzer</h1>
         <p class="lede">Compare summoner decks rune-by-rune, card-by-card.</p>
       </div>
       <div class="masthead-rule" aria-hidden="true">
