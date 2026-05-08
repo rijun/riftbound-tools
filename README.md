@@ -44,3 +44,7 @@ SvelteKit 2 + Svelte 5 (runes), `@sveltejs/adapter-static`, Vitest.
 ## Specs and plans
 
 Design specs and implementation plans live under `docs/superpowers/`.
+
+## License
+
+Licensed under [AGPL-3.0](LICENSE). © 2026 rijun.

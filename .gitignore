@@ -8,3 +8,10 @@ dist
 .env
 .env.*
 !.env.example
+
+# IDE / editor
+.idea/
+.vscode/
+
+# Claude Code local config
+.claude/

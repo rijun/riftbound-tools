@@ -136,13 +136,6 @@
     -webkit-text-fill-color: transparent;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
   }
-  h1 .amp {
-    color: var(--rb-gold);
-    font-style: italic;
-    font-weight: 500;
-    -webkit-text-fill-color: var(--rb-gold);
-    margin: 0 0.15em;
-  }
 
   .lede {
     margin: 0;
