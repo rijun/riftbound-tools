@@ -15,7 +15,7 @@ const HEADER_RE = /^([A-Za-z][A-Za-z ]*):\s*$/;
 const CARD_RE = /^\s*(\d+)\s+(.+?)\s*$/;
 const PAREN_SET_RE = /\s*\(([A-Z]{2,5}-\d{2,4})\)\s*$/;
 
-function deckNameFromFilename(filename: string): string {
+export function deckNameFromFilename(filename: string): string {
   const stem = filename.replace(/\.[^.]+$/, '');
   return stem
     .split(/[_\s-]+/)
@@ -30,10 +30,10 @@ function uuid(): string {
     .crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2);
 }
 
-export function parseText(text: string, filename: string, resolver?: Resolver): Deck {
+export function parseTextList(text: string, name: string, resolver?: Resolver): Deck {
   const deck: Deck = {
     id: uuid(),
-    name: deckNameFromFilename(filename),
+    name,
     source: 'text',
     zones: emptyZones(),
     warnings: []

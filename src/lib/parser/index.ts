@@ -1,6 +1,6 @@
 import type { Deck } from './types.ts';
 import type { Resolver } from '../cards/resolver.ts';
-import { parseText } from './text-parser.ts';
+import { parseTextList, deckNameFromFilename } from './text-parser.ts';
 
 export type ParseResult =
   | { ok: true; deck: Deck }
@@ -17,7 +17,7 @@ export async function parseFile(file: File, resolver: Resolver): Promise<ParseRe
     };
   }
   try {
-    const deck = parseText(text, filename, resolver);
+    const deck = parseTextList(text, deckNameFromFilename(filename), resolver);
     return { ok: true, deck };
   } catch (e) {
     return { ok: false, filename, error: (e as Error).message };

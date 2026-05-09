@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { parseDeckCode } from '$lib/parser/deck-code-parser.ts';
+  import { parsePaste } from '$lib/parser/paste-formats.ts';
   import { cardStore } from '$lib/cards/store.svelte.ts';
   import { decksState } from '$lib/state/decks.svelte.ts';
   import { addToast } from './toaster-store.svelte.ts';
 
-  let code = $state('');
+  let input = $state('');
   let name = $state('');
   let pastedCounter = $state(1);
 
@@ -13,16 +13,16 @@
       addToast({ kind: 'error', message: 'Card database not loaded yet.' });
       return;
     }
-    const trimmed = code.trim();
+    const trimmed = input.trim();
     if (!trimmed) {
-      addToast({ kind: 'error', message: 'Paste a deck code first.' });
+      addToast({ kind: 'error', message: 'Paste a deck code or decklist first.' });
       return;
     }
     const deckName = name.trim() || `Pasted deck ${pastedCounter}`;
     try {
-      const deck = parseDeckCode(trimmed, deckName, cardStore.resolver);
+      const deck = parsePaste(trimmed, deckName, cardStore.resolver);
       decksState.add(deck);
-      code = '';
+      input = '';
       name = '';
       pastedCounter += 1;
     } catch (e) {
@@ -34,7 +34,7 @@
 <section class="panel">
   <h2 class="section-head">
     <span class="section-mark" aria-hidden="true">◇</span>
-    <span class="section-text">Or inscribe a deck code</span>
+    <span class="section-text">Or paste a deck</span>
     <span class="section-mark" aria-hidden="true">◇</span>
   </h2>
 
@@ -49,11 +49,11 @@
     <button class="add-btn" onclick={add}>Add deck</button>
   </div>
   <textarea
-    placeholder="Paste a Riftbound deck code…"
-    bind:value={code}
+    placeholder="Paste a Riftbound deck code or decklist text…"
+    bind:value={input}
     rows="3"
     spellcheck="false"
-    aria-label="Deck code"
+    aria-label="Deck code or decklist"
   ></textarea>
 </section>
 

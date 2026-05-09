@@ -1,6 +1,6 @@
 <script lang="ts">
   import DeckUploader from '$lib/components/DeckUploader.svelte';
-  import DeckCodePanel from '$lib/components/DeckCodePanel.svelte';
+  import DeckPastePanel from '$lib/components/DeckPastePanel.svelte';
   import ComparisonUploader from '$lib/components/ComparisonUploader.svelte';
   import Toolbar from '$lib/components/Toolbar.svelte';
   import ComparisonTable from '$lib/components/ComparisonTable.svelte';
@@ -40,7 +40,7 @@
     <div class="decks-side">
       <h2 class="side-label">Decks</h2>
       <DeckUploader />
-      <DeckCodePanel />
+      <DeckPastePanel />
     </div>
     <div class="comparisons-side">
       <h2 class="side-label">Comparisons</h2>
