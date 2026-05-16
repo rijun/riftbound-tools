@@ -84,7 +84,7 @@
   .uploader {
     position: relative;
     border: 1px dashed var(--rb-line-strong);
-    padding: var(--rb-space-6) var(--rb-space-5);
+    padding: var(--rb-space-4) var(--rb-space-3);
     border-radius: var(--rb-radius-lg);
     cursor: pointer;
     text-align: center;
@@ -143,10 +143,10 @@
 
   .rune {
     display: inline-block;
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
     color: var(--rb-gold);
-    margin-bottom: var(--rb-space-3);
+    margin-bottom: var(--rb-space-2);
     transition: transform var(--rb-dur-base) var(--rb-ease-out),
                 filter var(--rb-dur-base) var(--rb-ease-out);
   }
@@ -158,16 +158,16 @@
   .rune svg { width: 100%; height: 100%; }
 
   .uploader-title {
-    margin: 0 0 0.25rem;
+    margin: 0 0 0.2rem;
     font-family: var(--rb-font-display);
-    font-size: var(--rb-fs-md);
+    font-size: var(--rb-fs-sm);
     letter-spacing: var(--rb-tracking-wide);
     text-transform: uppercase;
     color: var(--rb-vellum);
   }
   .uploader-sub {
     margin: 0;
-    font-size: var(--rb-fs-sm);
+    font-size: var(--rb-fs-xs);
     color: var(--rb-vellum-dim);
     font-style: italic;
   }
