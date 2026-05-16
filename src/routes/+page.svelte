@@ -1,6 +1,5 @@
 <script lang="ts">
-  import DeckUploader from '$lib/components/DeckUploader.svelte';
-  import DeckPastePanel from '$lib/components/DeckPastePanel.svelte';
+  import AddDeckPanel from '$lib/components/AddDeckPanel.svelte';
   import ComparisonUploader from '$lib/components/ComparisonUploader.svelte';
   import Toolbar from '$lib/components/Toolbar.svelte';
   import ComparisonTable from '$lib/components/ComparisonTable.svelte';
@@ -37,13 +36,12 @@
   </header>
 
   <div class="upload-grid">
-    <div class="decks-side">
-      <h2 class="side-label">Decks</h2>
-      <DeckUploader />
-      <DeckPastePanel />
+    <div class="upload-col">
+      <h2 class="side-label">Add a deck</h2>
+      <AddDeckPanel />
     </div>
-    <div class="comparisons-side">
-      <h2 class="side-label">Comparisons</h2>
+    <div class="upload-col">
+      <h2 class="side-label">Restore comparison</h2>
       <ComparisonUploader />
     </div>
   </div>
@@ -225,11 +223,11 @@
   /* ===== Upload grid ===== */
   .upload-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr);
     gap: 1rem;
     margin-bottom: 1rem;
   }
-  .decks-side, .comparisons-side {
+  .upload-col {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -259,7 +257,7 @@
   }
 
   /* ===== Responsive ===== */
-  @media (max-width: 720px) {
+  @media (max-width: 900px) {
     .upload-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 640px) {
