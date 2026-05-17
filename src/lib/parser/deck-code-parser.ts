@@ -66,10 +66,11 @@ export function parseDeckCode(code: string, name: string, resolver: Resolver): D
     const { entry, card } = makeEntry(decoded.chosenChampion, 1, resolver);
     if (!card) deck.warnings.push(`Unresolved chosen champion code: ${decoded.chosenChampion}`);
     deck.zones.champion.push(entry);
-    // Mirror into main — chosen champion is also a regular main-deck card.
+    // Real-world encoders already include the chosen champion in mainDeck
+    // with its full count; chosenChampion is a metadata flag, not an extra
+    // copy. Only push if it isn't already there (rare hand-crafted codes).
     const existing = deck.zones.main.find((e) => e.cardName === entry.cardName);
-    if (existing) existing.count += 1;
-    else deck.zones.main.push({ ...entry });
+    if (!existing) deck.zones.main.push({ ...entry });
   } else {
     // Backfill: V3 codes may omit chosenChampion. If the main deck contains
     // exactly one Champion-supertype Unit, treat it as the chosen one for
