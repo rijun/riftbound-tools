@@ -8,7 +8,8 @@ const HEADER_TO_ZONE: Record<string, Zone> = {
   'main deck': 'main',
   sideboard: 'sideboard',
   battlefields: 'battlefields',
-  runes: 'runes'
+  runes: 'runes',
+  'rune pool': 'runes'
 };
 
 const HEADER_RE = /^([A-Za-z][A-Za-z ]*):\s*$/;
