@@ -119,7 +119,8 @@
           <path d="M20 11 L23 14 L20 17 L17 14 Z" fill="currentColor" opacity="0.65"/>
         </svg>
       </span>
-      <span class="dropzone-text">Drop <code>.txt</code> deck files <br />— or click to summon the file picker</span>
+      <p class="dropzone-title">From a file</p>
+      <p class="dropzone-sub">Drop a <code>.txt</code> &mdash; or click to summon the file picker</p>
       <input
         bind:this={inputEl}
         type="file"
@@ -186,7 +187,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--rb-space-2);
     min-width: 0;
     padding: var(--rb-space-4) var(--rb-space-3);
     border: 1px dashed var(--rb-line-strong);
@@ -246,6 +246,7 @@
     width: 28px;
     height: 28px;
     color: var(--rb-gold);
+    margin-bottom: var(--rb-space-2);
     transition: transform var(--rb-dur-base) var(--rb-ease-out),
                 filter var(--rb-dur-base) var(--rb-ease-out);
   }
@@ -256,17 +257,24 @@
   }
   .rune svg { width: 100%; height: 100%; }
 
-  .dropzone-text {
-    font-family: var(--rb-font-body);
+  .dropzone-title {
+    margin: 0 0 0.2rem;
+    font-family: var(--rb-font-display);
     font-size: var(--rb-fs-sm);
-    line-height: var(--rb-lh-snug);
-    color: inherit;
+    letter-spacing: var(--rb-tracking-wide);
+    text-transform: uppercase;
+    color: var(--rb-vellum);
+  }
+  .dropzone-sub {
+    margin: 0;
+    font-size: var(--rb-fs-xs);
+    color: var(--rb-vellum-dim);
     font-style: italic;
   }
-  .dropzone-text code {
+  .dropzone-sub code {
     font-family: var(--rb-font-mono);
-    font-style: normal;
     font-size: 0.92em;
+    font-style: normal;
     color: var(--rb-vellum-mute);
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--rb-line);
