@@ -71,6 +71,31 @@
 </script>
 
 <section class="panel">
+  <textarea
+    placeholder="Paste a Riftbound deck code or decklist text…"
+    bind:value={pasteInput}
+    rows="3"
+    spellcheck="false"
+    aria-label="Deck code or decklist"
+  ></textarea>
+  <div class="row">
+    <input
+      type="text"
+      placeholder="Deck name (optional)"
+      bind:value={pasteName}
+      class="name-input"
+      aria-label="Deck name"
+    />
+    <button class="add-btn" onclick={addFromPaste}>Add deck</button>
+  </div>
+  <p class="format-note">Supports Piltover Archive deck codes and decklist text.</p>
+
+  <div class="seam" aria-hidden="true">
+    <span class="seam-mark">◇</span>
+    <span class="seam-text">or drop files</span>
+    <span class="seam-mark">◇</span>
+  </div>
+
   <div
     class="dropzone"
     class:dragging
@@ -92,8 +117,7 @@
         <path d="M16 12 L18 20 L14 20 Z" fill="currentColor" opacity="0.6"/>
       </svg>
     </span>
-    <p class="dropzone-title">Drop your decklists here</p>
-    <p class="dropzone-sub">Drop .txt deck files &mdash; or click to summon the file picker</p>
+    <span class="dropzone-text">Drop <code>.txt</code> deck files &mdash; or click to browse</span>
     <input
       bind:this={inputEl}
       type="file"
@@ -102,30 +126,6 @@
       onchange={onChange}
       hidden
     />
-  </div>
-
-  <div class="seam" aria-hidden="true">
-    <span class="seam-mark">◇</span>
-    <span class="seam-text">or paste</span>
-    <span class="seam-mark">◇</span>
-  </div>
-
-  <textarea
-    placeholder="Paste a Riftbound deck code or decklist text…"
-    bind:value={pasteInput}
-    rows="3"
-    spellcheck="false"
-    aria-label="Deck code or decklist"
-  ></textarea>
-  <div class="row">
-    <input
-      type="text"
-      placeholder="Deck name (optional)"
-      bind:value={pasteName}
-      class="name-input"
-      aria-label="Deck name"
-    />
-    <button class="add-btn" onclick={addFromPaste}>Add deck</button>
   </div>
 </section>
 
@@ -143,14 +143,17 @@
     box-shadow: var(--rb-shadow-sm);
   }
 
-  /* ===== Dropzone (inset inside panel) ===== */
+  /* ===== Dropzone (slim secondary affordance) ===== */
   .dropzone {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--rb-space-3);
     border: 1px dashed var(--rb-line-strong);
-    padding: var(--rb-space-5) var(--rb-space-4);
+    padding: var(--rb-space-3) var(--rb-space-4);
     border-radius: var(--rb-radius-md);
     cursor: pointer;
-    text-align: center;
     background:
       radial-gradient(ellipse 60% 70% at 50% 30%,
         rgba(111, 124, 255, 0.06),
@@ -192,45 +195,46 @@
     transition: opacity var(--rb-dur-base) var(--rb-ease-out),
                 border-color var(--rb-dur-base) var(--rb-ease-out);
   }
-  .corner.tl { top: 8px; left: 8px;  border-right: none; border-bottom: none; }
-  .corner.tr { top: 8px; right: 8px; border-left: none;  border-bottom: none; }
-  .corner.bl { bottom: 8px; left: 8px;  border-right: none; border-top: none; }
-  .corner.br { bottom: 8px; right: 8px; border-left: none;  border-top: none; }
+  .corner.tl { top: 6px; left: 6px;  border-right: none; border-bottom: none; }
+  .corner.tr { top: 6px; right: 6px; border-left: none;  border-bottom: none; }
+  .corner.bl { bottom: 6px; left: 6px;  border-right: none; border-top: none; }
+  .corner.br { bottom: 6px; right: 6px; border-left: none;  border-top: none; }
   .dropzone:hover .corner,
   .dropzone.dragging .corner { opacity: 1; border-color: var(--rb-gold); }
 
   .rune {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
+    display: inline-flex;
+    width: 22px;
+    height: 22px;
     color: var(--rb-gold);
-    margin-bottom: var(--rb-space-3);
     transition: transform var(--rb-dur-base) var(--rb-ease-out),
                 filter var(--rb-dur-base) var(--rb-ease-out);
   }
   .dropzone:hover .rune,
   .dropzone.dragging .rune {
-    transform: translateY(-2px) scale(1.05);
+    transform: translateY(-1px) scale(1.05);
     filter: drop-shadow(0 0 10px var(--rb-gold-glow));
   }
   .rune svg { width: 100%; height: 100%; }
 
-  .dropzone-title {
-    margin: 0 0 0.25rem;
-    font-family: var(--rb-font-display);
-    font-size: var(--rb-fs-md);
-    letter-spacing: var(--rb-tracking-wide);
-    text-transform: uppercase;
-    color: var(--rb-vellum);
-  }
-  .dropzone-sub {
-    margin: 0;
+  .dropzone-text {
+    font-family: var(--rb-font-body);
     font-size: var(--rb-fs-sm);
-    color: var(--rb-vellum-dim);
+    color: inherit;
     font-style: italic;
   }
+  .dropzone-text code {
+    font-family: var(--rb-font-mono);
+    font-style: normal;
+    font-size: 0.92em;
+    color: var(--rb-vellum-mute);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--rb-line);
+    padding: 0.05em 0.4em;
+    border-radius: var(--rb-radius-xs);
+  }
 
-  /* ===== "or paste" seam ===== */
+  /* ===== "or drop files" seam ===== */
   .seam {
     display: flex;
     align-items: center;
@@ -273,6 +277,15 @@
     margin-top: var(--rb-space-2);
   }
   .name-input { flex: 1; min-width: 0; }
+
+  /* ===== Format note ===== */
+  .format-note {
+    margin: var(--rb-space-2) 0 0;
+    font-size: var(--rb-fs-xs);
+    color: var(--rb-vellum-faint);
+    font-style: italic;
+    text-align: center;
+  }
 
   /* ===== Inputs ===== */
   input[type='text'],
