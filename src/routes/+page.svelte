@@ -54,7 +54,7 @@
   {:else}
     <p class="empty">
       <span class="empty-glyph" aria-hidden="true">◇ ◆ ◇</span>
-      <span class="empty-text">Drop deck files to begin the divination.</span>
+      <span class="empty-text">Add decks to begin the divination.</span>
     </p>
   {/if}
 
