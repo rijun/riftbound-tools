@@ -71,61 +71,58 @@
 </script>
 
 <section class="panel">
-  <textarea
-    placeholder="Paste a Riftbound deck code or decklist text…"
-    bind:value={pasteInput}
-    rows="3"
-    spellcheck="false"
-    aria-label="Deck code or decklist"
-  ></textarea>
-  <div class="row">
-    <input
-      type="text"
-      placeholder="Deck name (optional)"
-      bind:value={pasteName}
-      class="name-input"
-      aria-label="Deck name"
-    />
-    <button class="add-btn" onclick={addFromPaste}>Add deck</button>
-  </div>
-  <p class="format-note">Supports Piltover Archive deck codes and decklist text.</p>
+  <div class="inner-grid">
+    <div class="paste-side">
+      <textarea
+        placeholder="Paste a Riftbound deck code or decklist text…"
+        bind:value={pasteInput}
+        spellcheck="false"
+        aria-label="Deck code or decklist"
+      ></textarea>
+      <p class="format-note">Supports Piltover Archive deck codes and decklist text.</p>
+      <div class="row">
+        <input
+          type="text"
+          placeholder="Deck name (optional)"
+          bind:value={pasteName}
+          class="name-input"
+          aria-label="Deck name"
+        />
+        <button class="add-btn" onclick={addFromPaste}>Add deck</button>
+      </div>
+    </div>
 
-  <div class="seam" aria-hidden="true">
-    <span class="seam-mark">◇</span>
-    <span class="seam-text">or drop files</span>
-    <span class="seam-mark">◇</span>
-  </div>
-
-  <div
-    class="dropzone"
-    class:dragging
-    ondrop={onDrop}
-    ondragover={onDragOver}
-    ondragleave={onDragLeave}
-    role="button"
-    tabindex="0"
-    onclick={onPick}
-    onkeydown={(e) => e.key === 'Enter' && onPick()}
-  >
-    <span class="corner tl" aria-hidden="true"></span>
-    <span class="corner tr" aria-hidden="true"></span>
-    <span class="corner bl" aria-hidden="true"></span>
-    <span class="corner br" aria-hidden="true"></span>
-    <span class="rune" aria-hidden="true">
-      <svg viewBox="0 0 32 32" fill="none">
-        <path d="M16 4 L26 26 L6 26 Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
-        <path d="M16 12 L18 20 L14 20 Z" fill="currentColor" opacity="0.6"/>
-      </svg>
-    </span>
-    <span class="dropzone-text">Drop <code>.txt</code> deck files &mdash; or click to browse</span>
-    <input
-      bind:this={inputEl}
-      type="file"
-      multiple
-      accept=".txt,text/plain"
-      onchange={onChange}
-      hidden
-    />
+    <div
+      class="dropzone"
+      class:dragging
+      ondrop={onDrop}
+      ondragover={onDragOver}
+      ondragleave={onDragLeave}
+      role="button"
+      tabindex="0"
+      onclick={onPick}
+      onkeydown={(e) => e.key === 'Enter' && onPick()}
+    >
+      <span class="corner tl" aria-hidden="true"></span>
+      <span class="corner tr" aria-hidden="true"></span>
+      <span class="corner bl" aria-hidden="true"></span>
+      <span class="corner br" aria-hidden="true"></span>
+      <span class="rune" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none">
+          <path d="M16 4 L26 26 L6 26 Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+          <path d="M16 12 L18 20 L14 20 Z" fill="currentColor" opacity="0.6"/>
+        </svg>
+      </span>
+      <span class="dropzone-text">Drop <code>.txt</code> deck files <br />— or click to summon the file picker</span>
+      <input
+        bind:this={inputEl}
+        type="file"
+        multiple
+        accept=".txt,text/plain"
+        onchange={onChange}
+        hidden
+      />
+    </div>
   </div>
 </section>
 
@@ -143,17 +140,53 @@
     box-shadow: var(--rb-shadow-sm);
   }
 
-  /* ===== Dropzone (slim secondary affordance) ===== */
+  /* ===== Inner grid: paste side | drop side ===== */
+  .inner-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: var(--rb-space-3);
+    align-items: stretch;
+  }
+
+  /* ===== Paste side ===== */
+  .paste-side {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rb-space-2);
+    min-width: 0;
+  }
+  .paste-side textarea {
+    flex: 1 1 auto;
+    min-height: 7em;
+    resize: none;
+  }
+  .row {
+    display: flex;
+    gap: var(--rb-space-2);
+  }
+  .name-input { flex: 1; min-width: 0; }
+  .format-note {
+    margin: 0;
+    font-size: var(--rb-fs-xs);
+    color: var(--rb-vellum-faint);
+    font-style: italic;
+    text-align: center;
+  }
+
+  /* ===== Dropzone (right side, full column height) ===== */
   .dropzone {
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--rb-space-3);
+    gap: var(--rb-space-2);
+    min-width: 0;
+    padding: var(--rb-space-4) var(--rb-space-3);
     border: 1px dashed var(--rb-line-strong);
-    padding: var(--rb-space-3) var(--rb-space-4);
     border-radius: var(--rb-radius-md);
     cursor: pointer;
+    text-align: center;
     background:
       radial-gradient(ellipse 60% 70% at 50% 30%,
         rgba(111, 124, 255, 0.06),
@@ -195,24 +228,24 @@
     transition: opacity var(--rb-dur-base) var(--rb-ease-out),
                 border-color var(--rb-dur-base) var(--rb-ease-out);
   }
-  .corner.tl { top: 6px; left: 6px;  border-right: none; border-bottom: none; }
-  .corner.tr { top: 6px; right: 6px; border-left: none;  border-bottom: none; }
-  .corner.bl { bottom: 6px; left: 6px;  border-right: none; border-top: none; }
-  .corner.br { bottom: 6px; right: 6px; border-left: none;  border-top: none; }
+  .corner.tl { top: 8px; left: 8px;  border-right: none; border-bottom: none; }
+  .corner.tr { top: 8px; right: 8px; border-left: none;  border-bottom: none; }
+  .corner.bl { bottom: 8px; left: 8px;  border-right: none; border-top: none; }
+  .corner.br { bottom: 8px; right: 8px; border-left: none;  border-top: none; }
   .dropzone:hover .corner,
   .dropzone.dragging .corner { opacity: 1; border-color: var(--rb-gold); }
 
   .rune {
     display: inline-flex;
-    width: 22px;
-    height: 22px;
+    width: 28px;
+    height: 28px;
     color: var(--rb-gold);
     transition: transform var(--rb-dur-base) var(--rb-ease-out),
                 filter var(--rb-dur-base) var(--rb-ease-out);
   }
   .dropzone:hover .rune,
   .dropzone.dragging .rune {
-    transform: translateY(-1px) scale(1.05);
+    transform: translateY(-2px) scale(1.05);
     filter: drop-shadow(0 0 10px var(--rb-gold-glow));
   }
   .rune svg { width: 100%; height: 100%; }
@@ -220,6 +253,7 @@
   .dropzone-text {
     font-family: var(--rb-font-body);
     font-size: var(--rb-fs-sm);
+    line-height: var(--rb-lh-snug);
     color: inherit;
     font-style: italic;
   }
@@ -232,59 +266,6 @@
     border: 1px solid var(--rb-line);
     padding: 0.05em 0.4em;
     border-radius: var(--rb-radius-xs);
-  }
-
-  /* ===== "or drop files" seam ===== */
-  .seam {
-    display: flex;
-    align-items: center;
-    gap: var(--rb-space-3);
-    margin: var(--rb-space-3) 0;
-    color: var(--rb-vellum-mute);
-    font-family: var(--rb-font-display);
-    font-weight: 500;
-    font-size: var(--rb-fs-sm);
-    letter-spacing: var(--rb-tracking-wider);
-    text-transform: uppercase;
-  }
-  .seam::before {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--rb-line-strong) 70%);
-    opacity: 0.6;
-  }
-  .seam::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to left, transparent, var(--rb-line-strong) 70%);
-    opacity: 0.6;
-  }
-  .seam-mark {
-    color: var(--rb-gold);
-    font-size: 0.85em;
-    line-height: 1;
-    transform: translateY(-1px);
-    opacity: 0.8;
-  }
-  .seam-text { white-space: nowrap; }
-
-  /* ===== Name + button row ===== */
-  .row {
-    display: flex;
-    gap: var(--rb-space-2);
-    margin-top: var(--rb-space-2);
-  }
-  .name-input { flex: 1; min-width: 0; }
-
-  /* ===== Format note ===== */
-  .format-note {
-    margin: var(--rb-space-2) 0 0;
-    font-size: var(--rb-fs-xs);
-    color: var(--rb-vellum-faint);
-    font-style: italic;
-    text-align: center;
   }
 
   /* ===== Inputs ===== */
@@ -307,8 +288,6 @@
     font-size: var(--rb-fs-xs);
     line-height: var(--rb-lh-snug);
     letter-spacing: 0.02em;
-    resize: vertical;
-    min-height: 4.4em;
   }
   input[type='text']:hover,
   textarea:hover {
@@ -363,6 +342,16 @@
     transform: translateY(1px);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
                 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 600px) {
+    .inner-grid {
+      grid-template-columns: 1fr;
+    }
+    .paste-side textarea {
+      min-height: 5em;
+    }
   }
 
   @keyframes pulse-rift {
