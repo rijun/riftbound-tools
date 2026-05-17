@@ -109,8 +109,14 @@
       <span class="corner br" aria-hidden="true"></span>
       <span class="rune" aria-hidden="true">
         <svg viewBox="0 0 32 32" fill="none">
-          <path d="M16 4 L26 26 L6 26 Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
-          <path d="M16 12 L18 20 L14 20 Z" fill="currentColor" opacity="0.6"/>
+          <!-- back card -->
+          <rect x="5" y="9" width="14" height="20" rx="1.5" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" opacity="0.4"/>
+          <!-- middle card -->
+          <rect x="9" y="7" width="14" height="20" rx="1.5" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" opacity="0.7"/>
+          <!-- front card -->
+          <rect x="13" y="5" width="14" height="20" rx="1.5" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+          <!-- rune mark on front card -->
+          <path d="M20 11 L23 14 L20 17 L17 14 Z" fill="currentColor" opacity="0.65"/>
         </svg>
       </span>
       <span class="dropzone-text">Drop <code>.txt</code> deck files <br />— or click to summon the file picker</span>

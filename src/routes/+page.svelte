@@ -37,7 +37,7 @@
 
   <div class="upload-grid">
     <div class="upload-col">
-      <h2 class="side-label">Add a deck</h2>
+      <h2 class="side-label">Summon a deck</h2>
       <AddDeckPanel />
     </div>
     <div class="upload-col">

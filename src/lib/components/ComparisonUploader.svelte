@@ -63,10 +63,9 @@
   <span class="corner br" aria-hidden="true"></span>
   <span class="rune" aria-hidden="true">
     <svg viewBox="0 0 32 32" fill="none">
-      <!-- Two interlocking triangles — duality, comparison -->
-      <path d="M16 5 L26 22 L6 22 Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
-      <path d="M16 27 L6 10 L26 10 Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" opacity="0.6"/>
-      <circle cx="16" cy="16" r="1.5" fill="currentColor"/>
+      <!-- Twin overlapping diamonds — duality, comparison -->
+      <path d="M12 6 L20 16 L12 26 L4 16 Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" opacity="0.55"/>
+      <path d="M20 6 L28 16 L20 26 L12 16 Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
     </svg>
   </span>
   <p class="uploader-title">Restore a comparison</p>
