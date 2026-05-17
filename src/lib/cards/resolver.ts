@@ -6,7 +6,7 @@ export type Resolver = {
   byShortCode: (code: string) => Card | undefined;
 };
 
-const SHORT_CODE_RE = /^([A-Za-z]{2,5})-(\d{1,4})$/;
+const SHORT_CODE_RE = /^([A-Za-z]{2,5})-(\d{1,4})\w?$/;
 
 function normalizeName(s: string): string {
   return s.toLowerCase().replace(/\s*[,]\s*/g, ' - ').replace(/\s+/g, ' ').trim();

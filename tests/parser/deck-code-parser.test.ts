@@ -60,7 +60,7 @@ describe('parseDeckCode', () => {
     expect(() => parseDeckCode('!!! not a code', 'X', createResolver(cards))).toThrow(/Invalid deck code/);
   });
 
-  it('mirrors chosen champion into main deck', () => {
+  it('mirrors chosen champion into main deck when not already present', () => {
     const champCards: Card[] = [
       { id: 'm-95',  name: 'Stupefy',        collector_number: 95,  set: { set_id: 'OGN', label: 'Origins' }, classification: { type: 'Spell' } },
       { id: 'm-103', name: 'Diana - Lunari', collector_number: 103, set: { set_id: 'OGN', label: 'Origins' }, classification: { type: 'Unit', supertype: 'Champion' } }
@@ -75,6 +75,26 @@ describe('parseDeckCode', () => {
     expect(deck.zones.champion[0].cardName).toBe('Diana - Lunari');
     const inMain = deck.zones.main.find((e) => e.cardName === 'Diana - Lunari');
     expect(inMain?.count).toBe(1);
+  });
+
+  it('does not double-count chosen champion when the encoder also included it in mainDeck', () => {
+    // Real-world encoders include the chosen champion in mainDeck with its
+    // full count AND set chosenChampion as metadata. The parser must not
+    // add an extra +1 in that case.
+    const cards: Card[] = [
+      { id: 'm-95',  name: 'Stupefy',        collector_number: 95,  set: { set_id: 'OGN', label: 'Origins' }, classification: { type: 'Spell' } },
+      { id: 'm-103', name: 'Diana - Lunari', collector_number: 103, set: { set_id: 'OGN', label: 'Origins' }, classification: { type: 'Unit', supertype: 'Champion' } }
+    ];
+    const code = getCodeFromDeck(
+      [{ cardCode: 'OGN-103', count: 3 }, { cardCode: 'OGN-095', count: 3 }],
+      [],
+      'OGN-103'
+    );
+    const deck = parseDeckCode(code, 'D', createResolver(cards));
+    expect(deck.zones.champion).toHaveLength(1);
+    expect(deck.zones.champion[0].cardName).toBe('Diana - Lunari');
+    const inMain = deck.zones.main.find((e) => e.cardName === 'Diana - Lunari');
+    expect(inMain?.count).toBe(3);
   });
 
   it('backfills the champion subtitle when chosenChampion is absent and mainDeck has exactly one Champion-supertype Unit', () => {
