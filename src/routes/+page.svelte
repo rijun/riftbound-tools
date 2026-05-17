@@ -106,7 +106,6 @@
     animation: rise var(--rb-dur-slow) var(--rb-ease-out) 60ms both;
   }
 
-
   h1 {
     margin: 0.1rem 0 0.2rem;
     font-family: var(--rb-font-display);
