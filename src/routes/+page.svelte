@@ -1,6 +1,5 @@
 <script lang="ts">
-  import DeckUploader from '$lib/components/DeckUploader.svelte';
-  import DeckPastePanel from '$lib/components/DeckPastePanel.svelte';
+  import AddDeckPanel from '$lib/components/AddDeckPanel.svelte';
   import ComparisonUploader from '$lib/components/ComparisonUploader.svelte';
   import Toolbar from '$lib/components/Toolbar.svelte';
   import ComparisonTable from '$lib/components/ComparisonTable.svelte';
@@ -14,21 +13,22 @@
     <div class="masthead-inner">
       <div class="sigil" aria-hidden="true">
         <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Outer ring -->
-          <circle cx="32" cy="32" r="29" stroke="currentColor" stroke-width="1.25" opacity="0.55"/>
-          <circle cx="32" cy="32" r="22" stroke="currentColor" stroke-width="0.75" opacity="0.35"/>
-          <!-- Inner rune: hexagram with fissure -->
-          <path d="M32 8 L52 44 L12 44 Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
-          <path d="M32 56 L12 20 L52 20 Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" opacity="0.65"/>
-          <!-- Center fissure -->
-          <path d="M32 16 L34 30 L30 34 L32 48" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          <circle cx="32" cy="32" r="2" fill="currentColor"/>
+          <!-- Outer hexagon -->
+          <path d="M32 4 L56 18 L56 46 L32 60 L8 46 L8 18 Z" stroke="currentColor" stroke-width="1" opacity="0.55"/>
+          <!-- Inner subtle hex -->
+          <path d="M32 12 L48 22 L48 42 L32 52 L16 42 L16 22 Z" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+          <!-- Left rune -->
+          <path d="M18 22 L24 32 L18 42 L12 32 Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" opacity="0.75"/>
+          <!-- Right rune -->
+          <path d="M46 22 L52 32 L46 42 L40 32 Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+          <!-- Central rift -->
+          <path d="M32 14 L34 24 L30 32 L34 40 L32 50" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="32" cy="32" r="1.5" fill="currentColor"/>
         </svg>
       </div>
       <div class="masthead-text">
-        <p class="eyebrow">Codex of the Rift</p>
-        <h1>Riftbound Decklist Analyzer</h1>
-        <p class="lede">Compare summoner decks rune-by-rune, card-by-card.</p>
+        <h1>Riftbound Decklist Comparisons</h1>
+        <p class="lede">Compare summoner decks card-by-card.</p>
       </div>
       <div class="masthead-rule" aria-hidden="true">
         <span></span><span></span><span></span>
@@ -37,13 +37,12 @@
   </header>
 
   <div class="upload-grid">
-    <div class="decks-side">
-      <h2 class="side-label">Decks</h2>
-      <DeckUploader />
-      <DeckPastePanel />
+    <div class="upload-col">
+      <h2 class="side-label">Summon a deck</h2>
+      <AddDeckPanel />
     </div>
-    <div class="comparisons-side">
-      <h2 class="side-label">Comparisons</h2>
+    <div class="upload-col">
+      <h2 class="side-label">Restore comparison</h2>
       <ComparisonUploader />
     </div>
   </div>
@@ -55,7 +54,7 @@
   {:else}
     <p class="empty">
       <span class="empty-glyph" aria-hidden="true">◇ ◆ ◇</span>
-      <span class="empty-text">Drop deck files to begin the divination.</span>
+      <span class="empty-text">Add decks to begin the divination.</span>
     </p>
   {/if}
 
@@ -105,16 +104,6 @@
     flex-direction: column;
     gap: 0.15rem;
     animation: rise var(--rb-dur-slow) var(--rb-ease-out) 60ms both;
-  }
-
-  .eyebrow {
-    margin: 0;
-    font-family: var(--rb-font-mono);
-    font-size: var(--rb-fs-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--rb-tracking-widest);
-    color: var(--rb-gold);
-    opacity: 0.85;
   }
 
   h1 {
@@ -225,11 +214,11 @@
   /* ===== Upload grid ===== */
   .upload-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr);
     gap: 1rem;
     margin-bottom: 1rem;
   }
-  .decks-side, .comparisons-side {
+  .upload-col {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -259,7 +248,7 @@
   }
 
   /* ===== Responsive ===== */
-  @media (max-width: 720px) {
+  @media (max-width: 900px) {
     .upload-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 640px) {
